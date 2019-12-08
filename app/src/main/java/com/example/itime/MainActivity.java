@@ -1,14 +1,18 @@
 package com.example.itime;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ArrayList<TimeItem> timeItemList=new ArrayList<>();;
     Button button;
+    String imagePath;
     ListView listView;
     TimeAdapter timeAdapter;
     DataFileSource dataFileSource;
@@ -113,8 +118,9 @@ public class MainActivity extends AppCompatActivity {
                     String returnedTitle = data.getStringExtra("title");
                     String returnedDescription = data.getStringExtra("description");
                     String returnedDate=data.getStringExtra("date");
-                    String returnedImage=data.getStringExtra("ImagePath");
-                    Bitmap bm = BitmapFactory.decodeFile(returnedImage);
+
+                    //Bitmap bm = BitmapFactory.decodeFile(returnedImage);
+
                     SimpleDateFormat sdFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date();
                     try {
@@ -124,9 +130,19 @@ public class MainActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     getTimeItemList().add(0,new TimeItem(returnedTitle,date, returnedDescription,
-                            bm));
+                            R.drawable.item_new));
                     timeAdapter.notifyDataSetChanged();
                 }
+                /*if (data!=null){
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+                    c.moveToFirst();
+                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+                    String returnedImage=data.getStringExtra("ImagePath");
+                    imagePath = c.getString(columnIndex);
+                    Log.d("imagepath", returnedImage);
+                }*/
                 break;
             case 2:
                 if (resultCode == RESULT_OK) {

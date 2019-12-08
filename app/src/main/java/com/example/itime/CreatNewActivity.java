@@ -31,22 +31,26 @@ public class CreatNewActivity extends AppCompatActivity {
     ChooseAdapter chooseAdapter;
     TextView textView;
     ImageView imageView;
-    String imagePath;
-    @Override
+
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
        switch (requestCode){
            case 4:
                if (data!=null){
                    Uri selectedImage = data.getData();
+                   Log.d("URl", selectedImage.toString() );
                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
                    c.moveToFirst();
                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
                    imagePath = c.getString(columnIndex);
                }
+               break;
+               default:
+                   break;
        }
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +102,7 @@ public class CreatNewActivity extends AppCompatActivity {
                 intent.putExtra("date",
                         chooseAdapter.year+"-"+chooseAdapter.month+"-"+chooseAdapter.day+" "
                                 +chooseAdapter.hour+":"+chooseAdapter.minute+":"+chooseAdapter.second);
-                intent.putExtra("imagePath", imagePath);
+                //intent.putExtra("imagePath", imagePath);
                 setResult(RESULT_OK, intent);
                 Log.d("bookTitle", editTitle.getText().toString());
                 CreatNewActivity.this.finish();

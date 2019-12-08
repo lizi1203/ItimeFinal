@@ -168,7 +168,7 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
                     Intent intentImag = new Intent();
                         intentImag = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intentImag.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
-                       ((Activity) getContext()).startActivityForResult(intentImag,4);
+                       ((Activity) getContext()).startActivityForResult(intentImag,1);
                        textViewDescription.setText("图片已选择");
                 }
             }
