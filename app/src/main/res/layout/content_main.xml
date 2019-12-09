@@ -41,6 +41,7 @@
         tools:layout_editor_absoluteY="1dp"
         tools:ignore="MissingConstraints"
         android:divider="@android:color/transparent"
+        android:dividerHeight="5dp"
        >
 
 
