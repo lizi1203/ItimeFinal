@@ -11,20 +11,20 @@
         android:layout_height="260dp"
         android:id="@+id/frameLayout1"
         >
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/choose_img"
-            android:scaleType="centerCrop"
-            >
 
-        </ImageView>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#00000000"
             >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/choose_img"
+                android:scaleType="centerCrop"
+                >
 
+            </ImageView>
             <Button
                 android:id="@+id/button_return"
                 android:background="#00000000"

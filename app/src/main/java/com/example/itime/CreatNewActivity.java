@@ -2,11 +2,15 @@ package com.example.itime;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,22 +42,40 @@ public class CreatNewActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       switch (requestCode){
-           case 4:
-               if (data!=null){
+               if (requestCode == 4 && resultCode == Activity.RESULT_OK
+                       && data != null){
+                   Toast.makeText(this, "图片已选择", Toast.LENGTH_SHORT).show();
+                   requestWritePermission();
                    Uri selectedImage = data.getData();
+
                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
+
                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+
                    c.moveToFirst();
+
                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
+
                    String imagePath = c.getString(columnIndex);
-                   Bitmap bitmap = data.getParcelableExtra(imagePath);
-                   img.setImageBitmap(bitmap);
+
+                   showImage(imagePath);
+
+                   c.close();
+
                }
-               break;
-               default:
-                   break;
-       }
+    }
+
+    private void requestWritePermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        }
+
+    }
+
+    private void showImage(String imagePath) {
+        Bitmap bm = BitmapFactory.decodeFile(imagePath);
+
+        ((ImageView)findViewById(R.id.choose_img)).setImageBitmap(bm);
     }
 
     @Override
@@ -68,7 +91,7 @@ public class CreatNewActivity extends AppCompatActivity {
         editDescription=findViewById(R.id.edit_text_description);
         imageView=findViewById(R.id.image2);
         textView=findViewById(R.id.description2);
-        img=findViewById(R.id.choose_img);
+
 
         Init();
         Intent intent=getIntent();
