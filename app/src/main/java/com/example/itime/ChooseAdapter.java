@@ -35,19 +35,19 @@ import java.util.Locale;
 
 import static androidx.core.app.ActivityCompat.startActivityForResult;
 
-public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
+public class ChooseAdapter extends ArrayAdapter<ChooseItem> {
     private int resourceId;
-    Calendar calendar=Calendar.getInstance();
+    Calendar calendar = Calendar.getInstance();
 
-    Dialog dialog1=new Dialog(getContext());
-    Dialog dialog2=new Dialog(getContext());
+    Dialog dialog1 = new Dialog(getContext());
+    Dialog dialog2 = new Dialog(getContext());
     int year;
     int month;
     int day;
     int hour;
     int minute;
     int second;
-    SimpleDateFormat simpleDateFormat1=new SimpleDateFormat("MMM dd,yyyy HH:mm",Locale.ENGLISH);
+    SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("MMM dd,yyyy HH:mm", Locale.ENGLISH);
 
     public ChooseAdapter(@NonNull Context context, int resource, @NonNull ArrayList<ChooseItem> objects) {
         super(context, resource, objects);
@@ -59,13 +59,13 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
         final View view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
         ((ImageView) view.findViewById(R.id.image2)).setImageResource(chooseItem.getImageId());
         ((TextView) view.findViewById(R.id.title2)).setText(chooseItem.getTitle());
-        final TextView textViewDescription=view.findViewById(R.id.description2);
+        final TextView textViewDescription = view.findViewById(R.id.description2);
         textViewDescription.setText(chooseItem.getDescription());
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position==0){
+                if (position == 0) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     final View view = LayoutInflater.from(getContext()).inflate(R.layout.activity_dialog_date, null);
                     //这个布局在下边,可参考
@@ -73,7 +73,7 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
 
                     //设置日期简略显示 否则详细显示 包括:星期周
                     datePicker.setCalendarViewShown(true);
-                //初始化当前日期
+                    //初始化当前日期
                     calendar.setTimeInMillis(System.currentTimeMillis());
                     //初始化当前日期
                     calendar.setTimeInMillis(System.currentTimeMillis());
@@ -92,16 +92,16 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
                         @RequiresApi(api = Build.VERSION_CODES.M)
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                             year = datePicker.getYear();
-                             month = datePicker.getMonth()+1;
-                             day=datePicker.getDayOfMonth();
-                             hour=calendar.get(Calendar.HOUR_OF_DAY);
-                            minute=calendar.get(Calendar.MINUTE);
+                            year = datePicker.getYear();
+                            month = datePicker.getMonth() + 1;
+                            day = datePicker.getDayOfMonth();
+                            hour = calendar.get(Calendar.HOUR_OF_DAY);
+                            minute = calendar.get(Calendar.MINUTE);
 
 
                             AlertDialog.Builder builder2 = new AlertDialog.Builder(getContext());
                             final View view2 = LayoutInflater.from(getContext()).inflate(R.layout.activity_dialog_time, null);
-                            final TimePicker timePicker=(TimePicker)view2.findViewById(R.id.time_picker);
+                            final TimePicker timePicker = (TimePicker) view2.findViewById(R.id.time_picker);
                             timePicker.setHour(hour);
                             timePicker.setMinute(minute);
 
@@ -111,11 +111,11 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
                             builder2.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    hour=timePicker.getHour();
-                                    minute=timePicker.getMinute();
+                                    hour = timePicker.getHour();
+                                    minute = timePicker.getMinute();
 
-                                    SimpleDateFormat sdFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    String datetime=year+"-"+month+"-"+day+" "+hour+":"+minute+":"+second;
+                                    SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String datetime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second;
                                     Date date = new Date();
                                     try {
                                         date = sdFormat.parse(datetime);
@@ -124,7 +124,7 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
                                         e.printStackTrace();
                                     }
 
-                                       textViewDescription.setText(simpleDateFormat1.format(date));
+                                    textViewDescription.setText(simpleDateFormat1.format(date));
 
                                 }
                             });
@@ -150,7 +150,7 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
 
                 }
 
-                if(position==1){
+                if (position == 1) {
                     final String[] items = {"Week", "Month", "Year", "Custom"};
                     AlertDialog.Builder builder;
                     builder = new AlertDialog.Builder(getContext()).setIcon(R.mipmap.ic_launcher)
@@ -164,17 +164,18 @@ public class ChooseAdapter extends ArrayAdapter<ChooseItem>{
                     builder.create().show();
                 }
 
-                if(position==2){
+                if (position == 2) {
                     Intent intentImag = new Intent();
-                        intentImag = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        intentImag.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
-                       ((Activity) getContext()).startActivityForResult(intentImag,1);
-                       textViewDescription.setText("图片已选择");
+                    intentImag = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    intentImag.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                    ((Activity) getContext()).startActivityForResult(intentImag, 4);
                 }
             }
         });
         return view;
     }
+
+
 
 
 }

@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,26 +32,28 @@ public class CreatNewActivity extends AppCompatActivity {
     ChooseAdapter chooseAdapter;
     TextView textView;
     ImageView imageView;
+    ImageView img;
 
-    /*@Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
        switch (requestCode){
            case 4:
                if (data!=null){
                    Uri selectedImage = data.getData();
-                   Log.d("URl", selectedImage.toString() );
                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
                    c.moveToFirst();
                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                   imagePath = c.getString(columnIndex);
+                   String imagePath = c.getString(columnIndex);
+                   Bitmap bitmap = data.getParcelableExtra(imagePath);
+                   img.setImageBitmap(bitmap);
                }
                break;
                default:
                    break;
        }
-    }*/
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class CreatNewActivity extends AppCompatActivity {
         editDescription=findViewById(R.id.edit_text_description);
         imageView=findViewById(R.id.image2);
         textView=findViewById(R.id.description2);
+        img=findViewById(R.id.choose_img);
 
         Init();
         Intent intent=getIntent();
