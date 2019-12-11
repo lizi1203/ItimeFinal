@@ -33,7 +33,6 @@ public class DataFileSource {
     }
 
     public ArrayList<TimeItem> load() {
-
         try {
             ObjectInputStream inputStream = new ObjectInputStream
                     (context.openFileInput("serializable.txt"));

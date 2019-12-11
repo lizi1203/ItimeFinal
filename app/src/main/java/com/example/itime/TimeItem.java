@@ -1,6 +1,7 @@
 package com.example.itime;
 
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -10,13 +11,13 @@ public class TimeItem implements Serializable {
     private String title;
     private Date date;
     private String description;
-    private int imageId;
+    private Bitmap bm;
 
-    public TimeItem(String title, Date date, String description, int imageId) {
+    public TimeItem(String title, Date date, String description, Bitmap bm) {
         this.title = title;
         this.date = date;
         this.description = description;
-        this.imageId = imageId;
+        this.bm = bm;
     }
 
 
@@ -45,13 +46,11 @@ public class TimeItem implements Serializable {
         this.description = description;
     }
 
-    public int getImageId() {
-        return imageId;
+    public Bitmap getBm() {
+        return bm;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
+    public void setBm(Bitmap bm) { this.bm =bm; }
 
 
     public static int getGapCount(Date startDate, Date endDate) {

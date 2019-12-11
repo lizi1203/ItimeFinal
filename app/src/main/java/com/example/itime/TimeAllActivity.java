@@ -7,11 +7,14 @@ import androidx.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -30,8 +33,10 @@ public class TimeAllActivity extends AppCompatActivity {
     Button buttonShare;
     Button buttonUpdate;
     Context context=this;
+    Bitmap bitmap,bm;
     TextView titleTextView2,descriptionTextView2;
     TextView datetextview,counttextview;
+    ImageView imageView;
     private MyCount mc1,mc2;
     SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("MMM  dd,yyyy HH:mm:ss EEE", Locale.ENGLISH);
     SimpleDateFormat sdFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -81,12 +86,21 @@ public class TimeAllActivity extends AppCompatActivity {
         descriptionTextView2=findViewById(R.id.description_text_view2);
         datetextview=findViewById(R.id.data_text_view);
         counttextview=findViewById(R.id.count_text_view);
+        imageView=findViewById(R.id.imageView);
 
         final Intent intent=getIntent();
         final String title=intent.getStringExtra("Title");
         String date=intent.getStringExtra("Date");
         final String description=intent.getStringExtra("Description");
         final int position=intent.getIntExtra("position", 0);
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                ImageBinder imageBinder = (ImageBinder) bundle.getBinder("bitmap");
+                bitmap = imageBinder.getBitmap();
+                imageView.setImageBitmap(bitmap);
+            }
+        }
         //final int count=intent.getIntExtra("count", 0);
         Date date1=new Date(System.currentTimeMillis());
         int count=0;

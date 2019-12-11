@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import java.text.ParseException;
@@ -45,9 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ArrayList<TimeItem> timeItemList=new ArrayList<>();;
     Button button;
-    String imagePath;
     ListView listView;
     TimeAdapter timeAdapter;
+    Bitmap bitmap,bm,bmp;
     DataFileSource dataFileSource;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM  dd,yyyy HH:mm:ss EEE", Locale.ENGLISH);
@@ -99,8 +104,9 @@ public class MainActivity extends AppCompatActivity {
         timeItemList=dataFileSource.load();
         if(timeItemList.size()==0) {
             try {
+                bmp = BitmapFactory.decodeResource(getResources(),R.drawable.item_new );
                 timeItemList.add(
-                        new TimeItem("Birthday", sdf.parse("2019-12-03"), "lizi", R.drawable.item_new));
+                        new TimeItem("Birthday", sdf.parse("2019-12-03"), "lizi",bmp ));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -119,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
                     String returnedDescription = data.getStringExtra("description");
                     String returnedDate=data.getStringExtra("date");
 
-                    //Bitmap bm = BitmapFactory.decodeFile(returnedImage);
 
                     SimpleDateFormat sdFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     Date date = new Date();
@@ -129,20 +134,24 @@ public class MainActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
-                    getTimeItemList().add(0,new TimeItem(returnedTitle,date, returnedDescription,
-                            R.drawable.item_new));
+                    Bundle bundle = data.getExtras();
+                    if (bundle != null) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                            ImageBinder imageBinder = (ImageBinder) bundle.getBinder("bitmap");
+                            bitmap = imageBinder.getBitmap();
+                        }
+                        if(bitmap==null)
+                            getTimeItemList().add(0,new TimeItem(returnedTitle,date, returnedDescription,
+                                bmp));
+                        else
+                        getTimeItemList().add(0,new TimeItem(returnedTitle,date, returnedDescription,
+                                bitmap));
+                    }
+
+
                     timeAdapter.notifyDataSetChanged();
                 }
-                /*if (data!=null){
-                    Uri selectedImage = data.getData();
-                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                    Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-                    c.moveToFirst();
-                    int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                    String returnedImage=data.getStringExtra("ImagePath");
-                    imagePath = c.getString(columnIndex);
-                    Log.d("imagepath", returnedImage);
-                }*/
+
                 break;
             case 2:
                 if (resultCode == RESULT_OK) {
@@ -173,6 +182,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
+
 
     public ArrayList<TimeItem> getTimeItemList(){return timeItemList;}
     @Override

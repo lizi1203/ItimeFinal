@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -37,7 +38,7 @@ public class CreatNewActivity extends AppCompatActivity {
     ChooseAdapter chooseAdapter;
     TextView textView;
     ImageView imageView;
-    ImageView img;
+    Bitmap bm;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -73,7 +74,7 @@ public class CreatNewActivity extends AppCompatActivity {
     }
 
     private void showImage(String imagePath) {
-        Bitmap bm = BitmapFactory.decodeFile(imagePath);
+        bm = BitmapFactory.decodeFile(imagePath);
 
         ((ImageView)findViewById(R.id.choose_img)).setImageBitmap(bm);
     }
@@ -123,13 +124,18 @@ public class CreatNewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent();
+                Bundle bundle = new Bundle();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    bundle.putBinder("bitmap", new ImageBinder(bm));
+                }
+                intent.putExtras(bundle);
                 intent.putExtra("title", editTitle.getText().toString().trim());
                 intent.putExtra("description", editDescription.getText().toString().trim());
                 intent.putExtra("position", position);
                 intent.putExtra("date",
                         chooseAdapter.year+"-"+chooseAdapter.month+"-"+chooseAdapter.day+" "
                                 +chooseAdapter.hour+":"+chooseAdapter.minute+":"+chooseAdapter.second);
-                //intent.putExtra("imagePath", imagePath);
+
                 setResult(RESULT_OK, intent);
                 Log.d("bookTitle", editTitle.getText().toString());
                 CreatNewActivity.this.finish();
