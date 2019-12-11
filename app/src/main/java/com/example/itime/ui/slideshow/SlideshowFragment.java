@@ -26,17 +26,18 @@ import com.example.itime.ColorPickerView;
 import com.example.itime.MainActivity;
 import com.example.itime.R;
 
+
 public class SlideshowFragment extends Fragment {
 
     private ColorPickerView colorPickerView;
     private ColorDrawable colorDrawable;
-
     private static final int INIT_COLOR = 0xFF0000FF;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_slideshow,container,false);
+    public View onCreateView(@NonNull final LayoutInflater inflater,
+                             final ViewGroup container, Bundle savedInstanceState) {
+        final View view=inflater.inflate(R.layout.fragment_slideshow,container,false);
         View dialogView = inflater.inflate(R.layout.dialog_layout,container,false);
+
         colorPickerView = dialogView.findViewById(R.id.color_picker);
         colorPickerView.setColorPickerListener(new ColorPickerView.ColorPickerListener() {
             @Override
@@ -66,10 +67,7 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getActivity().getActionBar().setBackgroundDrawable(colorDrawable);
-                }
+                getActivity().findViewById(R.id.toolbar).setBackgroundColor(colorDrawable.getColor());
 
                 Toast.makeText(getActivity(), "dialog" , Toast.LENGTH_SHORT).show();
             }
