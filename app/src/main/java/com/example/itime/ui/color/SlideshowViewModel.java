@@ -1,4 +1,4 @@
-package com.example.itime.ui.slideshow;
+package com.example.itime.ui.color;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

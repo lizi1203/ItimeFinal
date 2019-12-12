@@ -1,29 +1,20 @@
-package com.example.itime.ui.slideshow;
+package com.example.itime.ui.color;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.itime.ColorPickerView;
-import com.example.itime.MainActivity;
 import com.example.itime.R;
 
 
@@ -69,7 +60,7 @@ public class SlideshowFragment extends Fragment {
 
                 getActivity().findViewById(R.id.toolbar).setBackgroundColor(colorDrawable.getColor());
 
-                Toast.makeText(getActivity(), "dialog" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "OK" , Toast.LENGTH_SHORT).show();
             }
         });
         builder.setCancelable(true);   //设置按钮是否可以按返回键取消,false则不可以取消
