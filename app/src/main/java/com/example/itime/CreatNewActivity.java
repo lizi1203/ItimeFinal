@@ -38,7 +38,7 @@ public class CreatNewActivity extends AppCompatActivity {
     ChooseAdapter chooseAdapter;
     TextView textView;
     ImageView imageView;
-    Bitmap bm;
+    Bitmap bm,bitmap;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -46,7 +46,7 @@ public class CreatNewActivity extends AppCompatActivity {
                if (requestCode == 4 && resultCode == Activity.RESULT_OK
                        && data != null){
                    Toast.makeText(this, "图片已选择", Toast.LENGTH_SHORT).show();
-                   requestWritePermission();
+
                    Uri selectedImage = data.getData();
 
                    String[] filePathColumns = {MediaStore.Images.Media.DATA};
@@ -90,15 +90,25 @@ public class CreatNewActivity extends AppCompatActivity {
         listView=findViewById(R.id.list_view_choose);
         editTitle=findViewById(R.id.edit_text_title);
         editDescription=findViewById(R.id.edit_text_description);
-        imageView=findViewById(R.id.image2);
+        imageView=findViewById(R.id.choose_img);
         textView=findViewById(R.id.description2);
 
 
         Init();
+        requestWritePermission();
         Intent intent=getIntent();
         String title=intent.getStringExtra("title");
         String description=intent.getStringExtra("description");
         String date=intent.getStringExtra("date");
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                ImageBinder imageBinder = (ImageBinder) bundle.getBinder("bitmap2");
+                bitmap = imageBinder.getBitmap();
+            }
+        }
+        if(bitmap!=null)
+            imageView.setImageBitmap(bitmap);
         final int position=intent.getIntExtra("position",0);
         if(title!=null) {
             editTitle.setText(title);

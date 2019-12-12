@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -59,6 +61,11 @@ public class SlideshowFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 getActivity().findViewById(R.id.toolbar).setBackgroundColor(colorDrawable.getColor());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getActivity().getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(colorDrawable.getColor());
+                }
 
                 Toast.makeText(getActivity(), "OK" , Toast.LENGTH_SHORT).show();
             }

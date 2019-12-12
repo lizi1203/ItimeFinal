@@ -160,6 +160,11 @@ public class TimeAllActivity extends AppCompatActivity {
                 intent2.putExtra("title", title);
                 intent2.putExtra("description", description);
                 intent2.putExtra("date",datetextview.getText().toString() );
+                Bundle bundle = new Bundle();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                    bundle.putBinder("bitmap2", new ImageBinder(bitmap));
+                }
+                intent2.putExtras(bundle);
                 startActivityForResult(intent2,3);
             }
         });
